@@ -1,0 +1,358 @@
+.app-shell {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.app-shell.embedded {
+  padding: 0;
+}
+
+.hero-section {
+  background: #ffffff;
+  border: 1px solid #d6dbe4;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.hero-section h1 {
+  margin: 0 0 8px;
+  font-size: 28px;
+}
+
+.hero-subtitle {
+  margin: 0 0 8px;
+  color: #4a5768;
+}
+
+.helper-text {
+  margin: 0;
+  color: #66758a;
+  font-size: 14px;
+}
+
+.layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 16px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #d6dbe4;
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+}
+
+.card-subtitle {
+  margin: 0 0 12px;
+  color: #66758a;
+  font-size: 14px;
+}
+
+.calendar-shell {
+  border: 1px solid #dbe2ee;
+  border-radius: 12px;
+  padding: 12px;
+  background: #fbfdff;
+  margin-bottom: 12px;
+}
+
+.booking-calendar.react-calendar {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font-family: inherit;
+}
+
+.booking-calendar .react-calendar__navigation button {
+  border-radius: 8px;
+  color: #1f2a38;
+  font-weight: 600;
+  min-width: 40px;
+}
+
+.booking-calendar .react-calendar__navigation button:disabled {
+  color: #9aa8bc;
+  background: transparent;
+}
+
+.booking-calendar .react-calendar__month-view__weekdays__weekday {
+  color: #5f6d82;
+  font-size: 12px;
+  text-transform: none;
+}
+
+.booking-calendar .react-calendar__month-view__weekdays__weekday abbr {
+  text-decoration: none;
+}
+
+.booking-calendar .react-calendar__tile {
+  border-radius: 10px;
+  min-height: 72px;
+  padding: 8px 6px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.booking-calendar .react-calendar__tile:enabled:hover,
+.booking-calendar .react-calendar__tile:enabled:focus {
+  background: #eef4ff;
+}
+
+.booking-calendar .react-calendar__tile--active {
+  background: #e9f0ff !important;
+  color: #0f1728 !important;
+  border: 1px solid #1e5eff;
+}
+
+.booking-calendar .react-calendar__tile--now {
+  background: #f4f7fc;
+}
+
+.booking-calendar .react-calendar__tile.calendar-day-available {
+  border: 1px solid #cbead5;
+}
+
+.booking-calendar .react-calendar__tile.calendar-day-full {
+  border: 1px solid #f5ddac;
+}
+
+.booking-calendar .react-calendar__tile.calendar-day-empty {
+  border: 1px solid #d6dbe4;
+}
+
+.booking-calendar .react-calendar__tile:disabled {
+  background: #f5f7fb;
+  color: #9aa8bc;
+}
+
+.tile-status {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.tile-status.open {
+  color: #166534;
+}
+
+.tile-status.full {
+  color: #b45309;
+}
+
+.tile-status.none {
+  color: #8b98ab;
+}
+
+.calendar-legend {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12px;
+  color: #5f6d82;
+}
+
+.calendar-legend span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.dot.available {
+  background: #22c55e;
+}
+
+.dot.full {
+  background: #f59e0b;
+}
+
+.dot.disabled {
+  background: #9ca3af;
+}
+
+.calendar-selection {
+  margin: 10px 0 0;
+  font-size: 13px;
+  color: #415066;
+}
+
+.loading-state {
+  margin: 10px 0 0;
+  color: #5f6d82;
+  font-size: 14px;
+}
+
+.slot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 8px;
+}
+
+.slot-button {
+  border: 1px solid #c8d1df;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #1f2a38;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 4px;
+}
+
+.slot-button small {
+  color: #596779;
+}
+
+.slot-button.active {
+  border-color: #1e5eff;
+  background: #e9f0ff;
+}
+
+.slot-button.booked {
+  border-style: dashed;
+  background: #f7f8fb;
+  color: #8b98ab;
+  cursor: not-allowed;
+}
+
+.slot-button.booked small {
+  color: #8b98ab;
+}
+
+.form-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.form-grid label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: #273447;
+  font-size: 14px;
+}
+
+.form-grid input:not([type='checkbox']),
+.form-grid select,
+.form-grid textarea {
+  border: 1px solid #c8d1df;
+  border-radius: 10px;
+  padding: 10px;
+  background: #ffffff;
+}
+
+.phone-input-group {
+  display: grid;
+  grid-template-columns: minmax(170px, 220px) 1fr;
+  gap: 8px;
+}
+
+.phone-country-code,
+.phone-number-input {
+  width: 100%;
+}
+
+.checkbox-row {
+  display: flex;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 8px !important;
+}
+
+.primary-button,
+.secondary-button {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.primary-button {
+  background: #1e5eff;
+  color: #ffffff;
+  margin-top: 4px;
+}
+
+.primary-button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.secondary-button {
+  background: #edf2fb;
+  color: #1f2a38;
+}
+
+.error-text {
+  color: #b42318;
+  font-size: 12px;
+}
+
+.empty-state {
+  margin: 10px 0 0;
+  padding: 10px;
+  border-radius: 10px;
+  background: #fff8e7;
+  color: #8a6100;
+  font-size: 14px;
+}
+
+.success-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 40, 0.48);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.success-modal {
+  width: min(520px, 100%);
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #d6dbe4;
+  box-shadow: 0 24px 48px rgba(15, 23, 40, 0.22);
+  padding: 20px;
+}
+
+.success-modal h2 {
+  margin: 0 0 10px;
+}
+
+.success-modal p {
+  margin: 6px 0;
+  color: #273447;
+}
+
+@media (max-width: 980px) {
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-input-group {
+    grid-template-columns: 1fr;
+  }
+}
