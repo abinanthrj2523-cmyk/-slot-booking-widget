@@ -6,12 +6,14 @@ function normalizeTimeValue(value) {
   return String(value ?? '').slice(0, 5)
 }
 
-export function createSupabaseClient(url, anonKey) {
+export function createSupabaseClient(url, anonKey, options = {}) {
   if (!url || !anonKey) {
     return null
   }
 
-  const cacheKey = `${url}|${anonKey}`
+  // Use a different cache key if persistSession is true so admin client doesn't conflict with widget client
+  const isPersisted = options.auth?.persistSession ?? false
+  const cacheKey = `${url}|${anonKey}|${isPersisted}`
   if (clientCache.has(cacheKey)) {
     return clientCache.get(cacheKey)
   }
@@ -20,6 +22,7 @@ export function createSupabaseClient(url, anonKey) {
     auth: {
       persistSession: false,
       autoRefreshToken: false,
+      ...options.auth,
     },
   })
   clientCache.set(cacheKey, client)
@@ -62,3 +65,29 @@ export async function createBookingInSupabase(client, payload) {
 
   throw new Error(error.message)
 }
+
+export async function loadAllBookingsForAdmin(client) {
+  const { data, error } = await client
+    .from('booking_requests')
+    .select('*')
+    .order('slot_date', { ascending: false })
+    .order('start_time', { ascending: false })
+
+  if (error) {
+    throw new Error(error.message)
+  }
+
+  return data ?? []
+}
+
+export async function updateBookingStatus(client, bookingId, newStatus) {
+  const { error } = await client
+    .from('booking_requests')
+    .update({ status: newStatus })
+    .eq('id', bookingId)
+
+  if (error) {
+    throw new Error(error.message)
+  }
+}
+

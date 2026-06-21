@@ -8,6 +8,56 @@
   padding: 0;
 }
 
+.top-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: #111827;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: #4b5563;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.navbar-link:hover, .navbar-link.active {
+  color: #111827;
+}
+
+.admin-login-link {
+  display: inline-block;
+  padding: 8px 16px;
+  background-color: #f3f4f6;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+}
+
+.admin-login-link:hover {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
 .hero-section {
   background: #ffffff;
   border: 1px solid #d6dbe4;

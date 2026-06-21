@@ -1,0 +1,74 @@
+.home-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+@media (min-width: 768px) {
+  .home-container {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 4rem;
+  }
+}
+
+.home-content {
+  flex: 1;
+}
+
+.home-title {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #111827;
+  margin-top: 0;
+  margin-bottom: 2rem;
+  letter-spacing: -0.02em;
+}
+
+.home-text {
+  font-size: 1.125rem;
+  line-height: 1.7;
+  color: #4b5563;
+  margin-bottom: 1.5rem;
+}
+
+.home-step {
+  margin-top: 2rem;
+}
+
+.home-step-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 0.75rem;
+}
+
+.home-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.home-image-placeholder {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 3 / 4;
+  background-color: #d1d5db;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #6b7280;
+  font-weight: 500;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* If you add an img tag later, this style applies */
+.home-image-container img {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
