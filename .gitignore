@@ -18,8 +18,8 @@ dist-ssr
 !.env.example
 
 # Supabase local artifacts
-supabase/.temp/
-supabase/.branches/
+backend/supabase/.temp/
+backend/supabase/.branches/
 
 # Editor directories and files
 .vscode/*

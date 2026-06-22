@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
-import { loadAllBookingsForAdmin, updateBookingStatus } from '../lib/supabase.js'
+import { loadAllBookings, updateBookingStatus } from '../lib/api.js'
 import './Admin.css'
 
 export default function Dashboard() {
-  const { supabaseClient } = useOutletContext()
   const [bookings, setBookings] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -12,11 +10,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function fetchBookings() {
-      if (!supabaseClient) return
-
       try {
         setLoading(true)
-        const data = await loadAllBookingsForAdmin(supabaseClient)
+        const data = await loadAllBookings()
         setBookings(data)
       } catch (err) {
         setError(err.message || 'Failed to load bookings')
@@ -26,7 +22,7 @@ export default function Dashboard() {
     }
 
     fetchBookings()
-  }, [supabaseClient])
+  }, [])
 
   function formatDateTime(date, time) {
     const parsedDate = new Date(date)
@@ -35,22 +31,20 @@ export default function Dashboard() {
       month: 'short',
       year: 'numeric',
     }).format(parsedDate)
-    
+
     // time is usually HH:MM:SS or HH:MM
     const formattedTime = String(time).slice(0, 5)
     return `${formattedDate} ${formattedTime}`
   }
 
   async function handleStatusChange(bookingId, newStatus) {
-    if (!supabaseClient) return
-    
     setActionLoading(bookingId)
     setError('')
-    
+
     try {
-      await updateBookingStatus(supabaseClient, bookingId, newStatus)
+      await updateBookingStatus(bookingId, newStatus)
       // Optimistically update the UI
-      setBookings((current) => 
+      setBookings((current) =>
         current.map(b => b.id === bookingId ? { ...b, status: newStatus } : b)
       )
     } catch (err) {
@@ -64,8 +58,8 @@ export default function Dashboard() {
     <div>
       <div className="admin-dashboard-header">
         <h2>Bookings</h2>
-        <button 
-          className="primary-button" 
+        <button
+          className="primary-button"
           onClick={() => window.location.reload()}
           style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
         >

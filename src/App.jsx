@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import {
-  createBookingInSupabase,
-  createSupabaseClient,
-  loadBookedRequestsFromSupabase,
-} from './lib/supabase.js'
+  loadBookedRequests,
+  createBooking,
+  rowsToBookedSlotKeySet,
+} from './lib/api.js'
 
 const defaultBookingConfig = {
   title: 'Book a Consultation',
@@ -124,13 +124,7 @@ function toBookedSlotKey(dateKey, startTime) {
   return `${dateKey}|${startTime}`
 }
 
-function rowsToBookedSlotKeySet(rows) {
-  const keySet = new Set()
-  rows.forEach((row) => {
-    keySet.add(toBookedSlotKey(row.slot_date, String(row.start_time).slice(0, 5)))
-  })
-  return keySet
-}
+
 
 function buildFixedSlotsForRange(durationMinutes, startDate, endDate, bookedSlotKeySet = new Set()) {
   const slotsByDate = createEmptySlotsByRange(startDate, endDate)
@@ -176,8 +170,6 @@ function getDateStatus(slotsByDate, dateKey) {
 
 function App({
   embedded = false,
-  supabaseUrl,
-  supabaseAnonKey,
   bookingType,
   configOverrides = {},
 }) {
@@ -202,14 +194,7 @@ function App({
   const selectedDateKey = formatDateKey(selectedDate)
   const monthKey = `${activeStartDate.getFullYear()}-${activeStartDate.getMonth()}`
 
-  const resolvedSupabaseUrl = supabaseUrl ?? import.meta.env.VITE_SUPABASE_URL ?? ''
-  const resolvedSupabaseAnonKey = supabaseAnonKey ?? import.meta.env.VITE_SUPABASE_ANON_KEY ?? ''
   const resolvedBookingType = bookingType ?? import.meta.env.VITE_BOOKING_TYPE ?? 'default'
-
-  const supabaseClient = useMemo(
-    () => createSupabaseClient(resolvedSupabaseUrl, resolvedSupabaseAnonKey),
-    [resolvedSupabaseUrl, resolvedSupabaseAnonKey],
-  )
 
   const [slotsByDate, setSlotsByDate] = useState({})
   const [loadingSlots, setLoadingSlots] = useState(false)
@@ -230,23 +215,7 @@ function App({
       const windowEndKey = formatDateKey(monthEnd)
 
       try {
-        if (!supabaseClient) {
-          const freeRange = buildFixedSlotsForRange(
-            bookingConfig.durationMinutes,
-            monthStart,
-            monthEnd,
-          )
-          if (!ignore) {
-            setSlotsByDate((current) => mergeSlots(current, freeRange))
-          }
-          return
-        }
-
-        const bookedRows = await loadBookedRequestsFromSupabase(supabaseClient, {
-          bookingType: resolvedBookingType,
-          windowStartKey,
-          windowEndKey,
-        })
+        const bookedRows = await loadBookedRequests(resolvedBookingType, windowStartKey, windowEndKey)
 
         if (ignore) {
           return
@@ -287,7 +256,6 @@ function App({
     bookingConfig.durationMinutes,
     monthKey,
     resolvedBookingType,
-    supabaseClient,
   ])
 
   const selectedDaySlots = slotsByDate[selectedDateKey] ?? []
@@ -340,22 +308,16 @@ function App({
       errors.privacyAccepted = 'Please accept the data consent to continue.'
     }
 
-    if (!supabaseClient) {
-      errors.submit = 'Database connection unavailable. Please configure Supabase credentials.'
-    }
-
     setFormErrors(errors)
 
-    if (Object.keys(errors).length > 0 || !selectedSlot || !supabaseClient) {
+    if (Object.keys(errors).length > 0 || !selectedSlot) {
       return
     }
 
-    const referenceCode = `DUMMY-${String(requestCounter).padStart(6, '0')}`
     setIsSubmitting(true)
 
     try {
-      await createBookingInSupabase(supabaseClient, {
-        reference_code: referenceCode,
+      const result = await createBooking({
         booking_type: resolvedBookingType,
         slot_id: null,
         slot_date: selectedSlot.dateKey,
@@ -369,6 +331,7 @@ function App({
         notes: formData.notes,
         status: bookingConfig.approvalRequired ? 'pending' : 'confirmed',
       })
+      const referenceCode = result.reference_code
 
       setSlotsByDate((current) => applyBookedSlot(current, selectedSlot.dateKey, selectedSlot.id))
       setSubmittedBooking({
@@ -493,9 +456,8 @@ function App({
                   <button
                     key={slot.id}
                     type="button"
-                    className={`slot-button ${selectedSlotId === slot.id ? 'active' : ''} ${
-                      isBooked ? 'booked' : ''
-                    }`}
+                    className={`slot-button ${selectedSlotId === slot.id ? 'active' : ''} ${isBooked ? 'booked' : ''
+                      }`}
                     disabled={isBooked}
                     onClick={() => setSelectedSlotId(slot.id)}
                   >

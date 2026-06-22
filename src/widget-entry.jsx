@@ -18,8 +18,6 @@ function parseBooleanAttribute(value) {
 class SlotBookingWidgetElement extends HTMLElement {
   static get observedAttributes() {
     return [
-      'supabase-url',
-      'supabase-anon-key',
       'booking-type',
       'title',
       'location',
@@ -88,8 +86,6 @@ class SlotBookingWidgetElement extends HTMLElement {
     this._root.render(
       <App
         embedded
-        supabaseUrl={this.getAttribute('supabase-url') ?? undefined}
-        supabaseAnonKey={this.getAttribute('supabase-anon-key') ?? undefined}
         bookingType={this.getAttribute('booking-type') ?? 'default'}
         configOverrides={configOverrides}
       />,
